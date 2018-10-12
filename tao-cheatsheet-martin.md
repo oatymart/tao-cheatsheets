@@ -1,19 +1,13 @@
 # TAO Snippets & Tips
 
-## TAO's ESlint config
+## Installation of TAO
 
-is located at `/tao/views/build/.eslintrc.json`
-Recommend copying it to your home folder so it is used globally in your editors.
-
-## IDE style enforcement
-
-TODO
-
-## Installing TAO via CLI
+### Installing TAO via CLI
 
 ```shell
-git clone ...
-
+git clone https://oat-sa/package-tao.git myfolder
+cd myfolder
+git checkout develop
 composer install
 ```
 
@@ -34,7 +28,7 @@ php tao/scripts/taoInstall.php \
 -v
 ```
 
-## Installing TAO using config.json file
+### Installing TAO using config.json file
 
 This assumes you use MAMP, details may vary.
 I needed to edit `config.json`, specifically updating:
@@ -58,13 +52,17 @@ I needed to edit `config.json`, specifically updating:
                     "password": "mypassword"
 ```
 
-## Clearing cache
+### Installing in a Docker container
 
-TAO's application cache can be cleared in TAO BackOffice by going to `Tools > Scripts > Empty cache`.
+TODO
 
-If something is causing TAO to crash or 500-Error, you can clear the cache manually by deleting the contents of `/generis/data/cache`.
+## Installing extension
 
-## Turn on TAO's logging
+TODO
+
+## Configuration of TAO
+
+### Turning on TAO's logging
 
 Open `/config/generis/log.conf.php`
 
@@ -82,7 +80,7 @@ return new oat\oatbox\log\LoggerService(array(
                 array(
                     'class' => 'Monolog\\Handler\\StreamHandler',
                     'options' => array(
-                        '/var/www/tao/package-tao/test-log.log',
+                        '/var/www/tao/tao.log',
                         100
                     )
                 ),
@@ -93,18 +91,63 @@ return new oat\oatbox\log\LoggerService(array(
 ```
 
 View above log file:
+
 `tail -f /private/var/www/tao/package-tao/test-log.log`
-or install e.g. `lnav` CLI-tool for same purpose
 
-## Requirejs
+or install e.g. `lnav` CLI-tool for aggregating several logfiles
 
-TODO
+### Clearing cache
 
-## QUnit
+TAO's application cache can be cleared in TAO BackOffice by going to `Tools > Scripts > Empty cache`.
 
-TODO
+If something is causing TAO to crash or 500-Error, you can clear the cache manually by deleting the contents of `/generis/data/cache`.
 
-## PDF in TAO
+### PDF in TAO
 
 Install PDFjs with a shell script:
 https://hub.taocloud.org/articles/third-party-tools-and-libraries/install-pdfjs-viewer
+
+### MathJax in TAO
+
+Download and run the install script referenced here: https://hub.taotesting.com/articles/third-party-tools-and-libraries/enable-math-expression-in-items
+
+It should work instantly.
+
+## Frontend Tooling
+
+### TAO's ESlint config
+
+is located at `/tao/views/build/.eslintrc.json`
+Recommend copying it to your home folder so it is used globally in your editors.
+
+### IDE style enforcement
+
+TODO
+
+### Grunt - compiling SASS, bundling JS, running QUnit tests
+
+To get started:
+
+```shell
+cd tao/views/js/build
+npm install
+grunt connect:testkeepalive: -testPort=8085
+```
+
+Then Ctrl-click the Terminal link to 127.0.0.01:8085 and browse the html tests.
+
+or:
+
+```shell
+grunt testall
+grunt sassall
+```
+etc.
+
+### Requirejs
+
+TODO
+
+### QUnit
+
+TODO
