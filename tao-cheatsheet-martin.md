@@ -40,7 +40,8 @@ I needed to edit `config.json`, specifically updating:
             "namespace": "http://tao.local/mytao.rdf",
             "url": "http://localhost:8888/tao3/",
             "file_path": "/path/to/my/htdocs/tao/data/",
-            "root_path": "/path/to/my/htdocs/tao/",
+            "root_path": "/path/to/my/htdocs/tao/"
+        },
         "generis": {
             "persistences": {
                 "default": {
@@ -50,6 +51,11 @@ I needed to edit `config.json`, specifically updating:
                     "dbname": "tao-db3",
                     "user": "martin",
                     "password": "mypassword"
+                }
+            }
+        }
+    }
+
 ```
 
 ### Installing in a Docker container
@@ -168,7 +174,9 @@ grunt sassall
 grunt sass:extensionname
 ```
 
-The output is generally stored in `views/css` of each extension you named.
+The output is generally stored in `views/css` of each extension you ran it for.
+
+*Do not edit raw CSS! Always SCSS.*
 
 #### QUnit - run Front End unit tests
 
@@ -193,17 +201,19 @@ TODO
 
 ## Modifying a TAO extension, pushing code
 
-(based on https://hub.taotesting.com/articles/faq/extension-update-guide)
-
-Get your extension set up:
+From your TAO root, get your extension set up:
 
 ```shell
-...
+git clone https://oat-sa/extension-tao-myextension.git myExtension
+cd myExtension
+composer update
 git checkout -B fix/TAO-issueNumber-descriptive-name
 ```
+
+Another guide to the naming convention of branches is on [this page](https://hub.taotesting.com/articles/faq/extension-update-guide).
 
 Then edit code, `git commit` etc.
 
 `git push origin fix/TAO-issueNumber-descriptive-name`
 
-Make a pull request on GH and assign Assignees/Reviewers.
+Make a pull request to the `develop` branch on GH and assign Assignees/Reviewers.
