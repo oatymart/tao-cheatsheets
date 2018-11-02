@@ -28,6 +28,8 @@ php tao/scripts/taoInstall.php \
 -v
 ```
 
+In some cases you will first need to `mkdir data && mkdir config` to allow the install to run successfully.
+
 ### Installing TAO using config.json file
 
 This assumes you use MAMP, details may vary.
@@ -87,6 +89,23 @@ php tao/scripts/taoExtensions.php -v -u=admin -p=admin -a=install -e=taoTestExte
 
 (dependencies may not be satisfied automatically...)
 
+### Updating
+
+Best is to run `composer require repo/extension=branch`
+
+Which must be followed by `php tao/scripts/taoUpdate.php` to let TAO know about it.
+
+### Uninstalling (hackish)
+
+Not recommended but sometimes useful if you need to reinstall a higher version you have downloaded.
+
+- Delete the extension's entry in `/config/generis/installation.conf.php`
+- Delete the extension's files `rm -rf taoMyExtension`
+
+This method can create problems in some cases.
+
+A safer trick is to lower the version of your extension listed in `/config/generis/installation.conf.php`. You will then be able to run its updater script by calling `php tao/scripts/taoUpdate.php`.
+
 ## Configuration of TAO
 
 ### Turning on TAO's logging
@@ -140,9 +159,13 @@ https://hub.taocloud.org/articles/third-party-tools-and-libraries/install-pdfjs-
 
 (Leave this until later)
 
-Download and run the install script referenced here: https://hub.taotesting.com/articles/third-party-tools-and-libraries/enable-math-expression-in-items
+If you need MathJax, download and run the install script referenced here: https://hub.taotesting.com/articles/third-party-tools-and-libraries/enable-math-expression-in-items
 
 It should work instantly.
+
+If you just need to run a grunt or npm task without errors, you can just create an empty file:
+
+`touch taoQtiItem/views/js/mathjax/MathJax.js`.
 
 ## Frontend Tooling
 
@@ -217,3 +240,17 @@ Then edit code, `git commit` etc.
 `git push origin fix/TAO-issueNumber-descriptive-name`
 
 Make a pull request to the `develop` branch on GH and assign Assignees/Reviewers.
+
+## Misc
+
+### Delay media loading
+
+Add the following section inside `tao/getFileFlysystem.php`:
+
+```php
+if (strpos($url, '.mp3') !== false) {
+    sleep(7);
+}
+```
+
+Mp3 files will then be delayed by 7 seconds.
